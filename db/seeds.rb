@@ -1,0 +1,10 @@
+sad = Mixtape.create(label: "Party Mix vol. 1")
+happy = Mixtape.create(label: "Happy Jams")
+shower = Mixtape.create(label: "Shower Songs")
+
+s1 = Song.create(name: "Handclap", artist: "Fitz & The Tantrums")
+s2 = Song.create(name: "The End", artist: "Linkin Park")
+s3 = Song.create(name: "Sorry Not Sorry", artist: "Demi Lovato")
+s4 = Song.create(name: "The Swiss Army Romance", artist: "Dahsboard Confessional")
+s5 = Song.create(name: "Hard Times", artist: "Paramore")
+s6 = Song.create(name: "Purple Rain", artist: "Prince")

@@ -1,0 +1,8 @@
+<h1>Song Info</h1>
+
+<h3>Name: <%= @song.name %></h3>
+<h3>Artist: <%= @song.artist %></h3>
+
+
+<%= button_to "Back", songs_path, method: "get" %>
+<%= button_to "Edit Song", edit_song_path, method: "get" %>

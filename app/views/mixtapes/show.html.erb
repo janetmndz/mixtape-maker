@@ -1,0 +1,21 @@
+<h1>This is Your Mixtape</h1>
+<h3>Lable: <%= @mixtape.label %></h3>
+
+<h4>Songs:</h4>
+<% if @mixtape.mixtape_songs.length == 0 %>
+    <p>There are no songs here</p>
+    <%= button_to "Add Songs", new_mixtape_song_path, method: "get" %>
+    <% else %>
+        <ul>
+            <% @mixtape.mixtape_songs.each do |mixsong| %>
+                <li>
+                    <%= mixsong.song.name %>
+                </li>
+            <% end %>
+        </ul>
+        <%= button_to "Add Songs", new_mixtape_song_path, method: "get" %>
+<% end %>
+
+<%= button_to "Edit this Mixtape", edit_mixtape_path, method: "get" %>
+<%= button_to "Delete this Mixtape", @mixtape, :method => :delete %>
+<%= button_to "Back", mixtapes_path, method: "get" %>
