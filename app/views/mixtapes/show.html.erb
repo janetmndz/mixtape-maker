@@ -1,21 +1,28 @@
 <h1>This is Your Mixtape</h1>
 <h3>Lable: <%= @mixtape.label %></h3>
+<h3>Duration: <%= @mixtape.to_min %></h3>
+<%= button_to "Edit this Mixtape Label", edit_mixtape_path, method: "get" %>
 
 <h4>Songs:</h4>
 <% if @mixtape.mixtape_songs.length == 0 %>
     <p>There are no songs here</p>
-    <%= button_to "Add Songs", new_mixtape_song_path, method: "get" %>
     <% else %>
         <ul>
             <% @mixtape.mixtape_songs.each do |mixsong| %>
                 <li>
-                    <%= mixsong.song.name %>
+                    <%= link_to "#{mixsong.song.name} - #{mixsong.song.to_min}", song_path(mixsong.song)%>
+                    <%= button_to "X", mixtape_song_path(mixsong), :method => :delete %>
                 </li>
             <% end %>
         </ul>
-        <%= button_to "Add Songs", new_mixtape_song_path, method: "get" %>
+<% end %>
+<h3>Add Song:</h3>
+<%= form_for @mixtape_song do |f| %>
+    <%= f.hidden_field :mixtape_id, value: @mixtape.id %>
+    <%= f.label :song_id, "Song:" %>
+    <%= f.collection_select :song_id, Song.all(), :id, :name %>
+    <%= f.submit "Add Song to this Mixtape" %>
 <% end %>
 
-<%= button_to "Edit this Mixtape", edit_mixtape_path, method: "get" %>
-<%= button_to "Delete this Mixtape", @mixtape, :method => :delete %>
 <%= button_to "Back", mixtapes_path, method: "get" %>
+<%= button_to "Delete this Mixtape", @mixtape, :method => :delete %>

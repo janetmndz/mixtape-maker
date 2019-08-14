@@ -1,11 +1,16 @@
 class MixtapesController < ApplicationController
-    before_action :set_mixtape, only: [:show, :edit, :update]
+    before_action :set_mixtape, only: [:show, :edit, :update, :destroy]
 
     def index
         @mixtapes = Mixtape.all()
     end
 
     def show 
+        @mixtape_song = MixtapeSong.new()
+        if add_preset_durations > 0
+            @mixtape.update(duration: add_preset_durations)
+        end
+        
     end
 
     def new
@@ -19,7 +24,7 @@ class MixtapesController < ApplicationController
     end
 
     def edit
-        
+        @mixsongs = @mixtape.mixtape_songs
     end
 
     def update
@@ -29,8 +34,6 @@ class MixtapesController < ApplicationController
     end
 
     def destroy
-        set_mixtape
-        @mixtape.mixtape_songs.destroy_all()
         @mixtape.destroy()
 
         redirect_to mixtapes_path
@@ -44,5 +47,9 @@ class MixtapesController < ApplicationController
 
     def mixtape_params
         params.require(:mixtape).permit(:label)
+    end
+
+    def add_preset_durations
+        @mixtape.songs.map(&:duration).reduce(:+)
     end
 end

@@ -6,7 +6,20 @@ class MixtapeSongsController < ApplicationController
     def create
         @mixtape_song = MixtapeSong.create(mixtape_song_params)
 
+        total_time = @mixtape_song.mixtape.duration + @mixtape_song.song.duration
+        @mixtape_song.mixtape.update(duration: total_time)
+
         redirect_to @mixtape_song.mixtape
+    end
+
+    def destroy
+        @mixtape_song = MixtapeSong.find(params[:id])
+        @mixtape = @mixtape_song.mixtape
+        @mixtape_song.destroy()
+
+        redirect_to @mixtape
+
+        
     end
 
     private

@@ -2,7 +2,22 @@
 
 <h3>Name: <%= @song.name %></h3>
 <h3>Artist: <%= @song.artist %></h3>
+<h3>Time: <%= @song.to_min %></h3>
+
+<h3>Featured on:</h3>
+<% if @song.mixtape_songs.length == 0 %>
+    <p>Nothing</p>
+    <% else %>
+        <ul>
+            <% @song.mixtape_songs.each do |mixsong| %>
+                <li>
+                    <%= link_to mixsong.mixtape.label, mixtape_path(mixsong.mixtape)%>
+                </li>
+            <% end %>
+        </ul>
+<% end %>
 
 
 <%= button_to "Back", songs_path, method: "get" %>
 <%= button_to "Edit Song", edit_song_path, method: "get" %>
+<%= button_to "Delete Song", @song, method: :delete %>
