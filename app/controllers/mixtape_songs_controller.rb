@@ -1,4 +1,5 @@
 class MixtapeSongsController < ApplicationController
+    # validate :can_save, on: :create
     def new
         @mixtape_song = MixtapeSong.new()
     end
@@ -6,10 +7,14 @@ class MixtapeSongsController < ApplicationController
     def create
         @mixtape_song = MixtapeSong.create(mixtape_song_params)
 
-        total_time = @mixtape_song.mixtape.duration + @mixtape_song.song.duration
-        @mixtape_song.mixtape.update(duration: total_time)
-
+        if @mixtape_song.invalid?
+            flash[:errors] = @mixtape_song.errors.full_messages
+        end
         redirect_to @mixtape_song.mixtape
+        # total_time = @mixtape_song.mixtape.duration + @mixtape_song.song.duration
+        # @mixtape_song.mixtape.update(duration: total_time)
+
+        # redirect_to @mixtape_song.mixtape
     end
 
     def destroy

@@ -1,21 +1,23 @@
-<h1>This is Your Mixtape</h1>
-<h3>Lable: <%= @mixtape.label %></h3>
-<h3>Duration: <%= @mixtape.to_min %></h3>
+<h1><%= @mixtape.label %></h1>
+<h3>est. <%= @mixtape.created_at.strftime("%m/%d/%Y")%></h3>
+<h3><%= @mixtape.songs.length %> songs - <%= @mixtape.to_min %> min</h3>
+<h3>Free Space: <%= @free_space %></h3>
 <%= button_to "Edit this Mixtape Label", edit_mixtape_path, method: "get" %>
 
 <h4>Songs:</h4>
 <% if @mixtape.mixtape_songs.length == 0 %>
     <p>There are no songs here</p>
     <% else %>
-        <ul>
+        <ol>
             <% @mixtape.mixtape_songs.each do |mixsong| %>
                 <li>
                     <%= link_to "#{mixsong.song.name} - #{mixsong.song.to_min}", song_path(mixsong.song)%>
                     <%= button_to "X", mixtape_song_path(mixsong), :method => :delete %>
                 </li>
             <% end %>
-        </ul>
+        </ol>
 <% end %>
+
 <h3>Add Song:</h3>
 <%= form_for @mixtape_song do |f| %>
     <%= f.hidden_field :mixtape_id, value: @mixtape.id %>
@@ -23,6 +25,12 @@
     <%= f.collection_select :song_id, Song.all(), :id, :name %>
     <%= f.submit "Add Song to this Mixtape" %>
 <% end %>
-
+<% if flash[:errors] %>
+    <% flash[:errors].each do |error_message| %>
+    <p class="error">
+        <%= error_message %>
+    </p>
+    <% end %>
+<% end %>
 <%= button_to "Back", mixtapes_path, method: "get" %>
 <%= button_to "Delete this Mixtape", @mixtape, :method => :delete %>

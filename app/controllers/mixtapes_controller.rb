@@ -5,12 +5,12 @@ class MixtapesController < ApplicationController
         @mixtapes = Mixtape.all()
     end
 
-    def show 
-        @mixtape_song = MixtapeSong.new()
+    def show
         if add_preset_durations > 0
             @mixtape.update(duration: add_preset_durations)
         end
-        
+        @free_space = Time.at(1080 - @mixtape.duration).utc.strftime("%M:%S")
+        @mixtape_song = MixtapeSong.new()
     end
 
     def new
@@ -50,6 +50,11 @@ class MixtapesController < ApplicationController
     end
 
     def add_preset_durations
-        @mixtape.songs.map(&:duration).reduce(:+)
+        # byebug
+        if @mixtape.songs.length != 0
+            @mixtape.songs.map(&:duration).reduce(:+)
+        else
+            return 0
+        end
     end
 end

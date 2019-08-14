@@ -9,9 +9,9 @@
     <p>Nothing</p>
     <% else %>
         <ul>
-            <% @song.mixtape_songs.each do |mixsong| %>
+            <% @song.mixtape_songs.map(&:mixtape).uniq.each do |mixtape| %>
                 <li>
-                    <%= link_to mixsong.mixtape.label, mixtape_path(mixsong.mixtape)%>
+                    <%= link_to mixtape.label, mixtape_path(mixtape)%>
                 </li>
             <% end %>
         </ul>
